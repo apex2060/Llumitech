@@ -1,4 +1,4 @@
-var CategoryCtrl = app.lazy.controller('CategoryCtrl', function($rootScope, $scope, $routeParams, dataService, fileService){
+var AdminCategoryCtrl = app.lazy.controller('AdminCategoryCtrl', function($rootScope, $scope, $routeParams, dataService, fileService){
 	var categoryResource = new dataService.resource({className: 'Category', identifier:'categoryList'});
 
 	var tools = {
@@ -42,5 +42,5 @@ var CategoryCtrl = app.lazy.controller('CategoryCtrl', function($rootScope, $sco
 	}
 	
 	$scope.tools = tools;
-	it.CategoryCtrl=$scope;
+	it.AdminCategoryCtrl=$scope;
 });

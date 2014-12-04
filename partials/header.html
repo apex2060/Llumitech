@@ -38,13 +38,20 @@
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li ng-hide="user"><a href="#/login">Login</a></li>
-				<li ng-show="user" class="notify" title="Communication">
-					<a href="#/dashboard/comm">
-						<i class="fa fa-comments"></i>
-						<span class="badge">2</span>
+				<li ng-show="cart.quantity" class="notify" title="Shopping Cart">
+					<a href="#/cart">
+						<i class="fa fa-shopping-cart"></i>
+						<span class="badge badge-primary">{{cart.quantity}}</span>
 					</a>
 				</li>
+				
+				<li ng-hide="user"><a href="#/login">Login</a></li>
+				<!--<li ng-show="user" class="notify" title="Communication">-->
+				<!--	<a href="#/dashboard/comm">-->
+				<!--		<i class="fa fa-comments"></i>-->
+				<!--		<span class="badge">2</span>-->
+				<!--	</a>-->
+				<!--</li>-->
 				<li ng-show="user" class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.firstName}} <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">

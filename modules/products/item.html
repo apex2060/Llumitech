@@ -7,6 +7,13 @@
 		<div class="col-md-8">
 			<!--PRODUCT PRICE & ABILITY TO ORDER-->
 			{{product.description}}
+			<hr>
+			<form ng-submit="rootTools.order(product, quantity)">
+				<div class="input-group">
+					<input type="number" class="form-control" placeholder="Quantity" ng-model="quantity">
+					<span type="submit" class="input-group-addon" ng-click="rootTools.cart.add(product, quantity)">Add To Cart</span>
+				</div>
+			</form>
 		</div>
 		<div class="col-md-12">
 			<!--MORE PRODUCT DETAILS-->

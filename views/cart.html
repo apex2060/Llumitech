@@ -1,0 +1,13 @@
+<div class="well light">
+	<h1>Shopping Cart</h1>
+	<div class="row">
+		<div class="col-md-4" ng-repeat="item in cart.items">
+			<div class="well">
+				<h1>{{item.title}}</h1>
+				<img class="thumbnail fit" ng-src="{{item.pic.src}}"></img>
+				<p>Quantity: {{item.quantity}}</p>
+			</div>
+		</div>
+	</div>
+	<h3>Checkout Comming Soon</h3>
+</div>

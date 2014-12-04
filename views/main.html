@@ -3,11 +3,15 @@
 		<div class="col-md-10" ng-include="rootTools.url()">
 		</div>
 		<aside class="col-md-2">
-			<div class="well" ng-repeat="category in categories">
-				<a href="#/products/list/{{category.objectId}}">
-					<img ng-src="{{category.pic.src}}"></img>
-					<h4>{{category.title}}</h4>
-				</a>
+			<div class="row">
+				<div class="col-sm-12 col-xs-6" ng-repeat="category in categories">
+					<div class="well">
+						<a href="#/products/list/{{category.objectId}}">
+							<img ng-src="{{category.pic.src}}"></img>
+							<h4>{{category.title}}</h4>
+						</a>
+					</div>
+				</div>
 			</div>
 		</aside>
 	</div>

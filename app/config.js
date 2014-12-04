@@ -7,7 +7,7 @@ app.factory('config', function ($rootScope, $http) {
 		fireRoot: 			'https://llumitech.firebaseio.com/',
 		fireRef: 			new Firebase('https://llumitech.firebaseio.com/'),
 	 	googleApiKey: 		'unknown',
-	 	roles: 				['Admin','Manager','Editor','ValidUser','BlockedUser']
+	 	roles: 				['Admin','Manager','Editor','Contractor','ValidUser','BlockedUser']
 	};
 	
 	Parse.initialize(config.parseAppId, config.parseJsKey);

@@ -61,6 +61,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 		init:function(){
 			if(!$rootScope.temp){
 				$rootScope.alerts = [];
+				$rootScope.cart = {items:[]};
 				$rootScope.temp = {};
 				userService.user()
 				$scope.$on('$viewContentLoaded', function(event) {
@@ -103,6 +104,38 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					status: 'sent'
 				}
 			});
+		},
+		cart:{
+			add:function(product, quantity){
+				var cart = $scope.cart;
+				if(!quantity)
+					quantity = 1;
+				
+				//Check for existing
+				var ja = false;
+				for(var i=0; i<cart.items.length; i++)
+					if(cart.items[i].objectId==product.objectId){
+						ja=true;
+						cart.items[i].quantity += quantity;
+					}
+					
+				if(!ja){
+					var temp = angular.extend(product, {quantity:quantity});
+					$rootScope.cart.items.push(temp)
+				}
+				cart.quantity = 0;
+				for(var i=0; i<cart.items.length; i++)
+					cart.quantity += cart.items[i].quantity;
+			},
+			feedback:function(contactForm){
+				contactForm = angular.copy(contactForm);
+				$scope.contactForm.status = 'sending';
+				$http.post(config.parseRoot+'classes/Feedback', contactForm).success(function(){
+					$scope.contactForm = {
+						status: 'sent'
+					}
+				});
+			}
 		}
 	}
 	$rootScope.alert = rootTools.alert.add;

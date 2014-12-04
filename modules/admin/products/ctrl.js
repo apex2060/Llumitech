@@ -1,4 +1,4 @@
-var ProductCtrl = app.lazy.controller('ProductCtrl', function($rootScope, $scope, $routeParams, dataService, fileService){
+var AdminProductCtrl = app.lazy.controller('AdminProductCtrl', function($rootScope, $scope, $routeParams, dataService, fileService){
 	var productResource = new dataService.resource({className: 'Product', identifier:'productList'});
 	var partResource = new dataService.resource({className: 'Part', identifier:'partList'});
 	var contractorResource = new dataService.resource({className: 'Contractor', identifier:'contractorList'});
@@ -45,5 +45,5 @@ var ProductCtrl = app.lazy.controller('ProductCtrl', function($rootScope, $scope
 	}
 	
 	$scope.tools = tools;
-	it.ProductCtrl=$scope;
+	it.AdminProductCtrl=$scope;
 });
