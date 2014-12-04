@@ -1,0 +1,15 @@
+<div class="well light" ng-controller="ProductCtrl" ng-init="tools.category.init()">
+	<h1>{{category.title}}</h1>
+	<p>{{category.description}}</p>
+	<div class="row">
+		<div class="col-md-4" ng-repeat="product in category.products">
+			<a href="#/products/item/{{product.objectId}}">
+				<div class="well">
+					<img class="fit" ng-src="{{product.pic.src}}"></img>
+					<h4>{{product.title}}</h4>
+					<!--<p>{{product.description}}</p>-->
+				</div>
+			</a>
+		</div>
+	</div>
+</div>

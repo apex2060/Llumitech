@@ -1,0 +1,206 @@
+/*CUSTOM*/
+html,body{
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+body{
+	background: rgb(0,0,0);
+	/*background: -moz-linear-gradient(top,  rgba(0,0,0,1) 56%, rgba(242,213,0,1) 58%);*/
+	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(56%,rgba(0,0,0,1)), color-stop(58%,rgba(242,213,0,1)));*/
+	/*background: -webkit-linear-gradient(top,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
+	/*background: -o-linear-gradient(top,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
+	/*background: -ms-linear-gradient(top,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
+	/*background: linear-gradient(to bottom,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
+	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#f2d500',GradientType=0 );*/
+	
+	background-image: url('/assets/img/background/background.jpg');
+	background-size: cover;
+	background-attachment: fixed;
+}
+header{
+	position: fixed;
+	top:0px;
+	width: 100%;
+	z-index: 1000;
+}
+section{
+	/*padding: 100px 0 100px 0;*/
+	padding: 100px 0 0 0;
+}
+a{
+	cursor: pointer;
+}
+h1{
+	text-align: center;
+}
+
+
+
+/* Main */
+#alerts .alert{
+	box-shadow: -5px -5px 5px #000;
+}
+
+
+.copperdiv{
+	height: 100px;
+	background: url('../img/background/coper.jpg');
+	color: #FFF;
+}
+.copperdiv a{
+	display: block;
+	padding: 5px 0px;
+	font-size: 16px;
+	color: #FFF;
+}
+.blackdiv{
+	background:#111;
+	color: #FFF;
+}
+
+/*Something*/
+.nav .notify{
+	text-align: center;
+	font-size: 18px;
+	line-height: 50px;
+	color: #FFF;
+	border-right: 1px solid #FFF;
+}
+.nav .notify a{
+	padding: 15px 20px;
+}
+.nav .notify .badge{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #9EA;
+}
+
+.well{
+	border-radius: 5px;
+	border: solid 1px #520
+}
+
+aside .well{
+	position: relative;
+	height: 100px;
+	overflow: hidden;
+}
+aside .well img{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+aside .well h4{
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+	left: 0px;
+	margin: 0px;
+	padding: 5px;
+	color: #FFF;
+	background: rgba(0,0,0,.5);
+}
+
+.well.light{
+	border: 20px solid #555;
+	background: #333;
+	box-shadow: 1px 1px 2px 0px #FD0;
+	color: #FD0;
+}
+.well.light .well{
+	background: #222;
+	color: #FFF;
+}
+
+
+/*CSS Overrides*/
+#main{
+	min-height:768px;
+}
+.modal-body>img{
+	max-width: 100%;
+}
+.fit{
+	display: block;
+	margin: 0px auto;
+	max-width: 100%;
+}
+.media{
+	clear: both;
+}
+.media-left{
+	float: left;
+	margin-right: 5px;
+}
+.media img{
+	width: 64px;
+	border-radius:6px;
+}
+/*This is for the upload a picture box.*/
+div.thumbnail{
+	margin: 0px auto;
+	width:200px;
+	height:200px;
+	text-align:center;
+	background: #999;
+}
+#map-canvas{
+	width: 100%;
+	height: 500px;
+}
+
+.tr, .br, .bl, .tl{
+	position: fixed;
+	padding: 5px;
+	z-index: 999;
+}
+.tr, .tl{
+	top: 0px;
+}
+.br, .bl{
+	bottom: 0px;
+}
+.tl, .bl{
+	left: 0px;
+}
+.tr, .br{
+	right: 0px;
+}
+
+.point25{
+	width: 20%;
+}
+[ng-click]{
+	cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* RESPONSIVE */
+
+/* Small devices (tablets, 768px and down) */
+@media (max-width: 768px) {
+	.point25{
+		width: 100%;
+	}
+}

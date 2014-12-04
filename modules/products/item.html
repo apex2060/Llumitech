@@ -1,0 +1,15 @@
+<div class="well light" ng-controller="ProductCtrl" ng-init="tools.product.init()">
+	<div class="row">
+		<div class="col-md-4">
+			<h1>{{product.title}}</h1>
+			<img class="thumbnail fit" ng-src="{{product.pic.src}}"></img>
+		</div>
+		<div class="col-md-8">
+			<!--PRODUCT PRICE & ABILITY TO ORDER-->
+			{{product.description}}
+		</div>
+		<div class="col-md-12">
+			<!--MORE PRODUCT DETAILS-->
+		</div>
+	</div>
+</div>

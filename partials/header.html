@@ -1,0 +1,67 @@
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#/">Llumitech</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li ng-repeat="category in categories"><a href="#/products/list/{{category.objectId}}">{{category.title}}</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#/tools/voltageCalculator">Voltage Drop Calculator</a></li>
+						<li><a href="#/tools/otherCalculator">Some Other Calculator</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#/about">About Us</a></li>
+						<li><a href="#/contact">Contact Us</a></li>
+						<li><a href="#/repairs">Repairs</a></li>
+						<li><a href="#/feedback">Feedback</a></li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li ng-hide="user"><a href="#/login">Login</a></li>
+				<li ng-show="user" class="notify" title="Communication">
+					<a href="#/dashboard/comm">
+						<i class="fa fa-comments"></i>
+						<span class="badge">2</span>
+					</a>
+				</li>
+				<li ng-show="user" class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.firstName}} <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li ng-show="rootTools.user.is('Admin')"><a href="#/admin/setup">Users &amp; Roles</a></li>
+						<li ng-show="rootTools.user.is('Manager')"><a href="#/admin/settings">Site Settings</a></li>
+						<li class="divider" ng-show="rootTools.user.is('Manager')"></li>
+						<li ng-show="rootTools.user.is('Manager')"><a href="#/admin/categories">Categories</a></li>
+						<li ng-show="rootTools.user.is('Manager')"><a href="#/admin/products">Products</a></li>
+						<li class="divider" ng-show="rootTools.user.is('Manager')"></li>
+						<li ng-show="rootTools.user.is('Manager')"><a href="#/dashboard/contractors">Contractors</a></li>
+						<li ng-show="rootTools.user.is('Manager')"><a href="#/dashboard/orders">Orders</a></li>
+						<li class="divider"></li>
+						<li><a href="#/user/account">Profile</a></li>
+						<li><a ng-click="rootTools.user.logout()">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

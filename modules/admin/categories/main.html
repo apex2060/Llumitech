@@ -1,0 +1,49 @@
+<div class="well light" ng-controller="CategoryCtrl">
+	<div class="row">
+		<div class="col-md-3" ng-repeat="category in categories">
+			<div class="well">
+				<img class="fit" ng-src="{{category.pic.src}}"></img>
+				<h3>{{category.title}}</h3>
+				<!--<p>{{category.description}}</p>-->
+				<div class="btn-group btn-group-justified" role="group">
+					<a class="btn btn-warning" ng-click="tools.category.edit(category)"><i class="fa fa-pencil"></i></a>
+					<a class="btn btn-danger" ng-click="tools.category.delete(category)"><i class="fa fa-trash"></i></a>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!--Add A Category-->
+		<div class="col-md-12">
+			<form class="well" ng-submit="tools.category.save(category)">
+				<div class="form-group">
+					<label for="categoryTitle" class="control-label">Title</label>
+					<input type="text" class="form-control" id="categoryTitle" placeholder="Title" ng-model="category.title">
+				</div>
+				<div class="form-group">
+					<label for="categoryDescription" class="control-label">Description</label>
+					<textarea class="form-control" id="categoryDescription" ng-model="category.description" placeholder="Description"></textarea>
+				</div>
+				<div class="form-group">
+					<div media-manager="tools.category.uploadPic" class="media-manager" max-width="600" max-height="600">
+						<div ng-hide="category.pic" class="thumbnail fit">Category Picture</div>
+						<img id="categoryPicture" ng-show="category.pic" class="thumbnail fit" 
+						ng-class="category.pic.class" 
+						ng-src="{{category.pic.src}}" 
+						title="{{category.pic.name}}">
+						<span class="clearfix" ng-show="category.pic.temp">
+							Uploading picture... This may take a while.
+						</span>
+					</div>
+				</div>
+				<div ng-hide="category.objectId">
+					<button type="submit" class="btn btn-block btn-success">Add Category</button>
+				</div>
+				<div ng-show="category.objectId">
+					<button type="submit" class="btn btn-block btn-success">Save</button>
+					<a class="btn btn-block btn-danger" ng-click="tools.category.clear()">Discard</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

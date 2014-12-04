@@ -1,0 +1,27 @@
+<div id="main" class="container">
+	<div class="row" ng-controller="MainCtrl">
+		<div class="col-md-10" ng-include="rootTools.url()">
+		</div>
+		<aside class="col-md-2">
+			<div class="well" ng-repeat="category in categories">
+				<a href="#/products/list/{{category.objectId}}">
+					<img ng-src="{{category.pic.src}}"></img>
+					<h4>{{category.title}}</h4>
+				</a>
+			</div>
+		</aside>
+	</div>
+</div>
+<!-- <button type="button" class="btn btn-default" ng-click="alert('success', 'Hi There')">say hi</button> -->
+
+
+<div id="alerts" class="br point25">
+	<div role="alert" class="alert" 
+	ng-repeat="alert in alerts"
+	ng-class="alert.type">
+	<button type="button" class="close" ng-click="rootTools.alert.dismiss(alert)">
+		<span aria-hidden="true">&times;</span>
+		<span class="sr-only">Close</span>
+	</button>
+	<span>{{alert.message}}</span></div>
+</div>
