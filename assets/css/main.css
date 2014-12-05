@@ -5,16 +5,9 @@ html,body{
 	margin: 0px;
 }
 body{
-	background: rgb(0,0,0);
-	/*background: -moz-linear-gradient(top,  rgba(0,0,0,1) 56%, rgba(242,213,0,1) 58%);*/
-	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(56%,rgba(0,0,0,1)), color-stop(58%,rgba(242,213,0,1)));*/
-	/*background: -webkit-linear-gradient(top,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
-	/*background: -o-linear-gradient(top,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
-	/*background: -ms-linear-gradient(top,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
-	/*background: linear-gradient(to bottom,  rgba(0,0,0,1) 56%,rgba(242,213,0,1) 58%);*/
-	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#f2d500',GradientType=0 );*/
-	
-	background-image: url('/assets/img/background/background.jpg');
+	background: #000;
+
+	/*background-image: url('/assets/img/background/copper.jpg');*/
 	background-size: cover;
 	background-attachment: fixed;
 }
@@ -104,7 +97,7 @@ aside .well h4{
 }
 
 .well.light{
-	border: 20px solid #555;
+	border: 20px solid #EFC741;
 	background: #333;
 	box-shadow: 1px 1px 2px 0px #FD0;
 	color: #FD0;
@@ -130,6 +123,11 @@ aside .well h4{
 	display: block;
 	margin: 0px auto;
 	max-width: 100%;
+}
+.full{
+	display: block;
+	margin: 0px auto;
+	width: 100%;
 }
 .media{
 	clear: both;
@@ -182,6 +180,22 @@ div.thumbnail{
 
 
 
+.imgContainer{
+	overflow: hidden;
+	width: 100%;
+}
+.imgContainer.h200{
+	height:200px;
+}
+.imgContainer.h250{
+	height:250px;
+}
+.imgContainer.h300{
+	height:300px;
+}
+.imgContainer.h500{
+	height:500px;
+}
 
 
 
