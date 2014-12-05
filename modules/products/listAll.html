@@ -1,0 +1,17 @@
+<div class="well light" ng-controller="ProductCtrl" ng-init="tools.category.init()">
+	<h1>{{category.title}}</h1>
+	<p>{{category.description}}</p>
+	<a ng-href="#/products/list/{{rp.id}}" class="btn btn-default btn-block">Thumbnails</a>	<br>
+	<div class="well" ng-repeat="product in category.products">
+		<div class="row">
+			<div class="col-md-4">
+				<img class="fit" ng-src="{{product.pic.src}}"></img>
+			</div>
+			<div class="col-md-8">
+				<h1>{{product.title}}</h1>
+				<p>{{product.description}}</p>
+				<a class="btn btn-primary pull-right" ng-click="rootTools.cart.add(product)">Add To Cart</a>
+			</div>
+		</div>
+	</div>
+</div>

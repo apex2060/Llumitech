@@ -1,6 +1,8 @@
 <div class="well light" ng-controller="ProductCtrl" ng-init="tools.category.init()">
 	<h1>{{category.title}}</h1>
 	<p>{{category.description}}</p>
+	<a ng-href="#/products/listAll/{{rp.id}}" class="btn btn-default btn-block">Details</a>
+	<br>
 	<div class="row">
 		<div class="col-md-4" ng-repeat="product in category.products">
 			<a href="#/products/item/{{product.objectId}}">
