@@ -2,7 +2,9 @@
 	<div class="row">
 		<div class="col-md-3" ng-repeat="category in categories">
 			<div class="well">
-				<img class="fit" ng-src="{{category.pic.src}}"></img>
+				<div class="imgContainer h150">
+					<img class="fit" ng-src="{{category.pic.src}}"></img>
+				</div>
 				<h3>{{category.title}}</h3>
 				<!--<p>{{category.description}}</p>-->
 				<div class="btn-group btn-group-justified" role="group">
@@ -11,39 +13,17 @@
 				</div>
 			</div>
 		</div>
-		
+		<div class="col-md-3">
+			<div class="well" ng-click="tools.category.add()">
+				<div class="imgContainer h150">
+					<img class="fit" src="assets/img/other/plus.png"></img>
+				</div>
+				<h3>Create</h3>
+					<a class="btn btn-primary btn-block">New Category</a>
+			</div>
+		</div>
 		
 		<!--Add A Category-->
-		<div class="col-md-12">
-			<form class="well" ng-submit="tools.category.save(category)">
-				<div class="form-group">
-					<label for="categoryTitle" class="control-label">Title</label>
-					<input type="text" class="form-control" id="categoryTitle" placeholder="Title" ng-model="category.title">
-				</div>
-				<div class="form-group">
-					<label for="categoryDescription" class="control-label">Description</label>
-					<textarea class="form-control" id="categoryDescription" ng-model="category.description" placeholder="Description"></textarea>
-				</div>
-				<div class="form-group">
-					<div media-manager="tools.category.uploadPic" class="media-manager" max-width="600" max-height="600">
-						<div ng-hide="category.pic" class="thumbnail fit">Category Picture</div>
-						<img id="categoryPicture" ng-show="category.pic" class="thumbnail fit" 
-						ng-class="category.pic.class" 
-						ng-src="{{category.pic.src}}" 
-						title="{{category.pic.name}}">
-						<span class="clearfix" ng-show="category.pic.temp">
-							Uploading picture... This may take a while.
-						</span>
-					</div>
-				</div>
-				<div ng-hide="category.objectId">
-					<button type="submit" class="btn btn-block btn-success">Add Category</button>
-				</div>
-				<div ng-show="category.objectId">
-					<button type="submit" class="btn btn-block btn-success">Save</button>
-					<a class="btn btn-block btn-danger" ng-click="tools.category.clear()">Discard</a>
-				</div>
-			</form>
-		</div>
+		<div ng-include="'modules/admin/categories/partials/categoryModal.html'"></div>
 	</div>
 </div>

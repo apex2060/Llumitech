@@ -1,22 +1,36 @@
 <div class="well light" ng-controller="ProductCtrl" ng-init="tools.product.init()">
-	<div class="row">
+	<div class="row product">
 		<div class="col-md-4">
 			<h1>{{product.title}}</h1>
-			<img class="thumbnail fit" ng-src="{{product.pic.src}}"></img>
+			<img class="fit" ng-src="{{product.pic.src}}"></img>
 		</div>
-		<div class="col-md-8">
-			<!--PRODUCT PRICE & ABILITY TO ORDER-->
-			{{product.description}}
+		<div class="col-md-4">
+			<!--<table class="table table-bordered">-->
+			<!--	<tr>-->
+			<!--		<td>Size</td>-->
+			<!--		<td>Lamp</td>-->
+			<!--	</tr>-->
+			<!--	<tr>-->
+			<!--		<td>Details</td>-->
+			<!--		<td>Details</td>-->
+			<!--	</tr>-->
+			<!--</table>-->
+			<p>{{product.description}}</p>
 			<hr>
+			<p>Size: 18.5&quot;h x 6.5&quot;w
+			<br>Lamp: T-3 Bi-pin
+			<br>Colors: Raw Copper, Bronze
+			<br>Watts: 20W Max
+			<br>Mount: 1/2&quot; NPT Dual Fin Stake</p>
+		</div>
+		<div class="col-md-4">
+			<img class="fit" ng-src="{{product.spec.src}}"></img>
 			<form ng-submit="rootTools.order(product, quantity)">
 				<div class="input-group">
 					<input type="number" class="form-control" placeholder="Quantity" ng-model="quantity">
 					<span type="submit" class="input-group-addon" ng-click="rootTools.cart.add(product, quantity)">Add To Cart</span>
 				</div>
 			</form>
-		</div>
-		<div class="col-md-12">
-			<!--MORE PRODUCT DETAILS-->
 		</div>
 	</div>
 </div>

@@ -3,11 +3,13 @@
 	<p>{{category.description}}</p>
 	<a ng-href="#/products/listAll/{{rp.id}}" class="btn btn-default btn-block">Details</a>
 	<br>
-	<div class="row">
-		<div class="col-md-4" ng-repeat="product in category.products">
+	<div class="row showcase">
+		<div class="col-md-4" ng-repeat="product in category.products | orderBy:'title'">
 			<a href="#/products/item/{{product.objectId}}">
 				<div class="well">
-					<img class="fit" ng-src="{{product.pic.src}}"></img>
+					<div class="imgContainer h200">
+						<img class="fit" ng-src="{{product.pic.src}}"></img>
+					</div>
 					<h4>{{product.title}}</h4>
 					<!--<p>{{product.description}}</p>-->
 				</div>

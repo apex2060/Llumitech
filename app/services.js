@@ -26,6 +26,7 @@ app.factory('userService', function ($rootScope, $http, $q, config) {
  				userService.getRoles(data).then(function(roles){
  					data.roles = roles;
 	 				$rootScope.user=data;
+	 				localStorage.user = angular.toJson($rootScope.user);
 	 				$rootScope.$broadcast('authenticated', data);
  				})
  			}).error(function(){
@@ -43,7 +44,6 @@ app.factory('userService', function ($rootScope, $http, $q, config) {
  				localStorage.user=angular.toJson(data);
  				userService.user().then(function(user){
 	 				$rootScope.user=user;
-					$rootScope.$broadcast('authenticated', user);
  				});
 				if(!signup)
 					window.location.hash='#/dashboard';

@@ -1,8 +1,10 @@
 <div class="well light" ng-controller="AdminProductCtrl">
-	<div class="row">
-		<div class="col-md-3" ng-repeat="product in products">
+	<div class="row showcase">
+		<div class="col-md-3" ng-repeat="product in products | orderBy:'title'">
 			<div class="well">
-				<img class="fit" ng-src="{{product.pic.src}}"></img>
+				<div class="imgContainer h150">
+					<img class="fit" ng-src="{{product.pic.src}}"></img>
+				</div>
 				<h3>{{product.title}}</h3>
 				<!--<p>{{product.description}}</p>-->
 				<div class="btn-group btn-group-justified" role="group">
@@ -11,43 +13,15 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		<!--Add A Product-->
-		<div class="col-md-12">
-			<form class="well" ng-submit="tools.product.save(product)">
-				<div class="form-group">
-					<label for="productTitle" class="control-label">Title</label>
-					<input type="text" class="form-control" id="productTitle" placeholder="Title" ng-model="product.title">
+		<div class="col-md-3">
+			<div class="well" ng-click="tools.product.add()">
+				<div class="imgContainer h150">
+					<img class="fit" src="assets/img/other/plus.png"></img>
 				</div>
-				<div class="form-group">
-					<label for="productCategory" class="control-label">Category</label>
-					<select class="form-control" id="productCategory" ng-model="product.category" ng-options="category.title for category in categories"></select>
-				</div>
-				<div class="form-group">
-					<label for="productDescription" class="control-label">Description</label>
-					<textarea class="form-control" id="productDescription" ng-model="product.description" placeholder="Description"></textarea>
-				</div>
-				<div class="form-group">
-					<div media-manager="tools.product.uploadPic" class="media-manager" max-width="600" max-height="600">
-						<div ng-hide="product.pic" class="thumbnail fit">Product Picture</div>
-						<img id="productPicture" ng-show="product.pic" class="thumbnail fit" 
-						ng-class="product.pic.class" 
-						ng-src="{{product.pic.src}}" 
-						title="{{product.pic.name}}">
-						<span class="clearfix" ng-show="product.pic.temp">
-							Uploading picture... This may take a while.
-						</span>
-					</div>
-				</div>
-				<div ng-hide="product.objectId">
-					<button type="submit" class="btn btn-block btn-success">Add Product</button>
-				</div>
-				<div ng-show="product.objectId">
-					<button type="submit" class="btn btn-block btn-success">Save</button>
-					<a class="btn btn-block btn-danger" ng-click="tools.product.clear()">Discard</a>
-				</div>
-			</form>
+				<h3>Create</h3>
+					<a class="btn btn-primary btn-block">New Product</a>
+			</div>
 		</div>
 	</div>
+	<div ng-include="'modules/admin/products/partials/productModal.html'"></div>
 </div>

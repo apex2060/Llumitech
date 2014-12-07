@@ -5,18 +5,24 @@ var AdminProductCtrl = app.lazy.controller('AdminProductCtrl', function($rootSco
 	
 	var tools = {
 		product: {
+			add:function(){
+				$scope.product = {};
+				$('#adminProductModal').modal('show');
+			},
 			clear:function(){
 				delete $scope.product;	
 			},
 			save:function(product){
 				product.category = product.category.objectId;
 				productResource.item.save(product).then(function(){
+					$('#adminProductModal').modal('hide');
 					delete $scope.product;
 				});
 			},
 			edit:function(product){
 				//Associate category with product for dropdown...
-				$scope.product = product;	
+				$scope.product = product;
+				$('#adminProductModal').modal('show');
 			},
 			delete:function(product){
 				if(confirm('Are you sure you want to delete '+product.title+'?')){
@@ -36,6 +42,24 @@ var AdminProductCtrl = app.lazy.controller('AdminProductCtrl', function($rootSco
 	
 				fileService.upload(details,src).then(function(data){
 					$scope.product.pic = {
+						name: data.name(),
+						src: data.url()
+					}
+				});
+			},
+			uploadSpec:function(details, src){
+				if(!$scope.product)
+					$scope.product = {};
+				$scope.product.spec = {
+					temp: true,
+					status: 'uploading',
+					class: 'grayscale',
+					name: 'Image Uploading...',
+					src: src
+				}
+	
+				fileService.upload(details,src).then(function(data){
+					$scope.product.spec = {
 						name: data.name(),
 						src: data.url()
 					}

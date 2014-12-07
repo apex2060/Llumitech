@@ -1,0 +1,32 @@
+<!--CENTER-->
+<div id="main" class="container">
+	<div class="row" ng-controller="MainCtrl">
+		<aside class="col-md-10 col-md-offset-1">
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-6" ng-repeat="category in categories">
+					<div class="well">
+						<a href="#/products/list/{{category.objectId}}">
+							<img ng-src="{{category.pic.src}}"></img>
+							<h4>{{category.title}}</h4>
+						</a>
+					</div>
+				</div>
+			</div>
+		</aside>
+		<div class="col-md-10 col-md-offset-1">
+			<div ng-include="rootTools.url()"></div>
+		</div>
+	</div>
+</div>
+
+
+<div id="alerts" class="br point25">
+	<div role="alert" class="alert" 
+	ng-repeat="alert in alerts"
+	ng-class="alert.type">
+	<button type="button" class="close" ng-click="rootTools.alert.dismiss(alert)">
+		<span aria-hidden="true">&times;</span>
+		<span class="sr-only">Close</span>
+	</button>
+	<span>{{alert.message}}</span></div>
+</div>

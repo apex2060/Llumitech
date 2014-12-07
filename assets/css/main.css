@@ -107,8 +107,24 @@ aside .well h4{
 	color: #FFF;
 }
 
+.showcase .well h3{
+	height: 1em;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.product form{
+	margin-top: 25px;
+}
+
+
 
 /*CSS Overrides*/
+.modal *{
+	color: #111;
+}
+.modal .btn{
+	color: #FFF;
+}
 .badge-primary{
 	background-color: #444;
 	color: #FF0;
@@ -183,6 +199,9 @@ div.thumbnail{
 .imgContainer{
 	overflow: hidden;
 	width: 100%;
+}
+.imgContainer.h150{
+	height:150px;
 }
 .imgContainer.h200{
 	height:200px;

@@ -34,6 +34,28 @@ app.config(function($routeProvider,$compileProvider,$translateProvider,$controll
 
 
 	$routeProvider
+	.when('/v1/:view', {
+		reloadOnSearch: false,
+		templateUrl: 'views/v1.html',
+		controller: 'MainCtrl',
+		resolve: {
+			load: ['$q', '$rootScope', '$location', function ($q, $rootScope, $location) {
+				var pieces = $location.path().split('/');
+				return requires($q, null, pieces[1], null)
+			}]
+		}
+	})
+	.when('/v2/:view', {
+		reloadOnSearch: false,
+		templateUrl: 'views/v2.html',
+		controller: 'MainCtrl',
+		resolve: {
+			load: ['$q', '$rootScope', '$location', function ($q, $rootScope, $location) {
+				var pieces = $location.path().split('/');
+				return requires($q, null, pieces[1], null)
+			}]
+		}
+	})
 	.when('/:view', {
 		reloadOnSearch: false,
 		templateUrl: 'views/main.html',

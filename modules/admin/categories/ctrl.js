@@ -3,6 +3,10 @@ var AdminCategoryCtrl = app.lazy.controller('AdminCategoryCtrl', function($rootS
 
 	var tools = {
 		category: {
+			add:function(){
+				$scope.category = {};
+				$('#adminCategoryModal').modal('show');
+			},
 			clear:function(){
 				delete $scope.category;	
 			},
@@ -10,10 +14,12 @@ var AdminCategoryCtrl = app.lazy.controller('AdminCategoryCtrl', function($rootS
 				console.log(category)
 				categoryResource.item.save(category).then(function(){
 					delete $scope.category;
+					$('#adminCategoryModal').modal('hide');
 				});
 			},
 			edit:function(category){
-				$scope.category = category;	
+				$scope.category = category;
+				$('#adminCategoryModal').modal('show');
 			},
 			delete:function(category){
 				if(confirm('Are you sure you want to delete '+category.title+'?')){
