@@ -61,9 +61,9 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 		init:function(){
 			if(!$rootScope.temp){
 				$rootScope.alerts = [];
-				$rootScope.cart = {items:[]};
 				$rootScope.temp = {};
 				userService.user()
+				rootTools.cart.init();
 				$scope.$on('$viewContentLoaded', function(event) {
 					// ga('send', 'pageview', $location.path());
 				});
@@ -106,8 +106,35 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			});
 		},
 		cart:{
+			reset:function(){
+				$rootScope.cart = {items:[],total:0};
+				rootTools.cart.save($rootScope.cart);
+			},
+			init:function(){
+				Stripe.setPublishableKey('pk_test_RpBXbaWcBPqTClAMhJGLS9kx');
+				if(localStorage.cart)
+					$rootScope.cart = angular.fromJson(localStorage.cart)
+				else
+					rootTools.cart.reset();
+			},
+			priceCheck: function(){
+				//Go through all items in cart and update prices.	
+			},
+			checkout:function(card){
+				// card needs: {number,cvc,exp_month,exp_year}
+				Stripe.card.createToken(card, function(status, response){
+					if(respoonse.error){
+						rootTools.alert.add('danger', response.error.message)
+					}else{
+						var token = response.id;
+						//call parse functionn to charge card.
+					}
+				});
+			},
 			add:function(product, quantity){
-				var cart = $scope.cart;
+				var cart = $rootScope.cart;
+					cart.total = 0;
+					cart.discounted = 0;
 				if(!quantity)
 					quantity = 1;
 				
@@ -124,17 +151,17 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					$rootScope.cart.items.push(temp)
 				}
 				cart.quantity = 0;
-				for(var i=0; i<cart.items.length; i++)
+				for(var i=0; i<cart.items.length; i++){
 					cart.quantity += cart.items[i].quantity;
+					if(cart.items[i].price)
+						cart.total += cart.items[i].price * cart.items[i].quantity;
+					if(cart.items[i].discounted)
+						cart.discounted += cart.items[i].discounted * cart.items[i].quantity;
+				}
+				rootTools.cart.save(cart);
 			},
-			feedback:function(contactForm){
-				contactForm = angular.copy(contactForm);
-				$scope.contactForm.status = 'sending';
-				$http.post(config.parseRoot+'classes/Feedback', contactForm).success(function(){
-					$scope.contactForm = {
-						status: 'sent'
-					}
-				});
+			save:function(cart){
+				localStorage.cart = angular.toJson(cart)
 			}
 		}
 	}

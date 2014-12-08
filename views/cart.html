@@ -8,8 +8,21 @@
 					<img class="thumbnail fit" ng-src="{{item.pic.src}}"></img>
 					<p>Quantity: {{item.quantity}}</p>
 				</div>
-			</div>
+			</a>
 		</div>
 	</div>
 	<h3>Checkout Comming Soon</h3>
+	<p>Total: {{cart.total | currency}}</p>
+	<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
+	<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()">Place Order</a>
+	<!--<form action="" method="POST">-->
+	<!--	<script-->
+	<!--		src="https://checkout.stripe.com/checkout.js" class="stripe-button"-->
+	<!--		data-key="pk_test_RpBXbaWcBPqTClAMhJGLS9kx"-->
+	<!--		data-amount="{{caart.total}}"-->
+	<!--		data-name="Llumitech"-->
+	<!--		data-description="Lighting Products"-->
+	<!--		data-image="/assets/img/42.png">-->
+	<!--	</script>-->
+	<!--</form>-->
 </div>
