@@ -122,10 +122,12 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 				//Go through all items in cart and update prices.	
 			},
 			stripeData: function(){
-				userService.user().then(function(){
-					$http.post(config.parseRoot+'functions/stripeData', {}).success(function(data){
-						$rootScope.user.card = data.result.cards.data[0]
-					});
+				userService.user().then(function(user){
+					if(user.stripe){
+						$http.post(config.parseRoot+'functions/stripeData', {}).success(function(data){
+							$rootScope.user.card = data.result.cards.data[0]
+						});
+					}
 				});
 			},
 			cc: function(ccInfo){

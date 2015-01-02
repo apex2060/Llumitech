@@ -237,11 +237,17 @@ table{
 }
 
 
-input{
+input, table{
 	color: #000;
 }
 
 
+.child{
+	display:none;
+}
+.parent:hover .child{
+	display:initial;
+}
 
 
 /* RESPONSIVE */

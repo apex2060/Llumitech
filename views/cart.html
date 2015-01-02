@@ -7,15 +7,23 @@
 				<a href="#/products/item/{{item.objectId}}">
 					<img class="thumbnail fit" ng-src="{{item.pic.src}}"></img>
 				</a>
-				<p>Quantity: <input type="number" size="2" ng-model="item.quantity" ng-change="rootTools.cart.update()"></p>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Quantity: </span>
+					<input type="number" class="form-control" ng-model="item.quantity" ng-change="rootTools.cart.update()">
+				</div>
 			</div>
 		</div>
 		<div class="col-md-12" ng-show="user">
 			<p>Total: {{cart.total | currency}}</p>
 			<p ng-show="rootTools.user.is('Contractor')">Contractor Discount: {{cart.discounted | currency}}</p>
-			<p ng-show="user.card" style="text-align:right;">
-				A {{cart.total | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
-			</p>
+			<div ng-show="user.card">
+				<p ng-hide="rootTools.user.is('Contractor')" style="text-align:right;">
+					A {{cart.total | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
+				</p>
+				<p ng-show="rootTools.user.is('Contractor')" style="text-align:right;">
+					A {{cart.discounted | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
+				</p>
+			</div>
 			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
 			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.card">Continue</a>
 			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.card">Order Now!</a>

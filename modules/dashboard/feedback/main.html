@@ -1,0 +1,24 @@
+<div ng-controller="FeedbackCtrl">
+	<div class="well light">
+		<h1>Orders</h1>
+		<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Phone</th>
+				<th>Email</th>
+				<th>Message</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="feed in feedback">
+				<td>{{$index + 1}}</td>
+				<td>{{feed.name}}</td>
+				<td>{{feed.phone}}</td>
+				<td>{{feed.email}}</td>
+				<td>{{feed.message}}</td>
+			</tr>
+		</table>
+	</div>
+</div>
