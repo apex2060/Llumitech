@@ -125,6 +125,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					console.log(status,response);
 					if(response.error){
 						$rootScope.alert('error', response.error.message)
+						$rootScope.$apply();
 					}else{
 						$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
 							$rootScope.temp.card = {};
