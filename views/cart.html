@@ -1,6 +1,6 @@
 <div class="well light">
 	<h1>Shopping Cart</h1>
-	<div class="row" ng-show="cart.status=='pending'">
+	<div class="row" ng-show="cart.status=='open'">
 		<div class="col-md-4" ng-repeat="item in cart.items">
 			<div class="well">
 				<h1>{{item.title}}</h1>
@@ -13,7 +13,8 @@
 		<div class="col-md-12">
 			<p>Total: {{cart.total | currency}}</p>
 			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
-			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()">Order</a>
+			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.stripe">Continue</a>
+			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.stripe">Place Order</a>
 		</div>
 	</div>
 	<div class="row" ng-show="cart.status=='empty'">
@@ -21,5 +22,8 @@
 	</div>
 	<div class="row" ng-show="cart.status=='ordered'">
 		<h2>Thanks for your purchase!  <br>You will get an email shortly.</h2>
+	</div>
+	<div class="row" ng-show="cart.status=='pending'">
+		<h2>Please wait while we prepare a secure gateway.</h2>
 	</div>
 </div>

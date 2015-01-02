@@ -122,24 +122,15 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			},
 			cc: function(ccInfo){
 				Stripe.card.createToken(ccInfo, function(status, response){
-					console.log('checkout', status, response)
-					$http.post(config.parseRoot+'functions/stripeCreate', {stripeToken: response.id}).success(function(customer){
-						console.log('Customer: ', customer)
-					})
-				});
-			},
-			checkout:function(ccInfo) {
-				console.log('checkout', ccInfo)
-				Stripe.card.createToken(ccInfo, function(status, response){
-					console.log('checkout', status, response)
-					$http.post(config.parseRoot+'functions/stripeCreate', {stripeToken: response.id}).success(function(customer){
-						console.log('Customer: ', customer)
+					$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
+						$rootScope.temp.card = {};
+						alert('Your order has been placed!  You should get an email shortly.')
 					})
 				});
 			},
 			add:function(product, quantity){
 				var cart = $rootScope.cart;
-					cart.status = 'pending';
+					cart.status = 'open';
 				if(!quantity)
 					quantity = 1;
 				
@@ -182,7 +173,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					$rootScope.cart = {items:[],total:0,status:results.status};
 					rootTools.cart.save($rootScope.cart);
 					if(results.status == 'pending')
-						window.location.href = config.appEngineUrl+'/#/cc';
+						window.location.href = config.appEngineUrl+'/#/cc?orderId='+results.objectId;
 				});
 			}
 		}
