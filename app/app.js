@@ -1,6 +1,6 @@
 var it = {};
 
-var app = angular.module('Synergize', ['pascalprecht.translate','ngAnimate','ngResource','ngRoute','ngTouch','ngDraggable','firebase']);
+var app = angular.module('Llumitech', ['pascalprecht.translate','ngAnimate','ngResource','ngRoute','ngTouch','ngDraggable','firebase']);
 app.config(function($routeProvider,$compileProvider,$translateProvider,$controllerProvider,$provide) {
 	app.lazy = {
 		controller: $controllerProvider.register,
@@ -103,5 +103,5 @@ app.config(function($routeProvider,$compileProvider,$translateProvider,$controll
 
 
 angular.element(document).ready(function() {
-	angular.bootstrap(document, ['Synergize']);
+	angular.bootstrap(document, ['Llumitech']);
 });

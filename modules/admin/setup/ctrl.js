@@ -134,6 +134,7 @@ app.lazy.factory('roleService', function ($rootScope, $http, $q, config) {
 			return deferred.promise;
 		},
 		toggleUserRole:function(user,role){
+			console.log('toggle', user, role)
 			if(roleService.hasRole(user,role))
 				roleService.deleteUserRole(user,role)
 			else

@@ -46,7 +46,7 @@ app.factory('userService', function ($rootScope, $http, $q, config) {
 	 				$rootScope.user=user;
  				});
 				if(!signup)
-					window.location.hash='#/dashboard';
+					window.location.hash='#/';
  			}).error(function(error){
  				$rootScope.alert('error', error)
  				$rootScope.error = error;
@@ -57,6 +57,8 @@ app.factory('userService', function ($rootScope, $http, $q, config) {
 	 			user.fullName = user.firstName + ' ' + user.lastName
 	 			if(user.password!=user.password2){
 	 				$rootScope.alert('error', 'Your passwords do not match.')
+	 			}else if(user.isContractor && !user.website){
+	 				$rootScope.alert('error', 'You must enter a website to create a contractor account.')
 	 			}else{
 	 				$rootScope.error = null;
 	 				delete user.password2;

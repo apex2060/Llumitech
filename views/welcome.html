@@ -1,4 +1,5 @@
 <div class="well clearfix">
 	<h1>Welcome</h1>
-	<p>We will verify your contractor application and notify you when your application has been approved.</p>
+	<p ng-show="user.isContractor">We will verify your contractor application and notify you when your application has been approved.</p>
+	<p ng-hide="user.isContractor">Thanks for making an account!  We look forward to working with you.</p>
 </div>

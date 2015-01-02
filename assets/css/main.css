@@ -219,15 +219,27 @@ div.thumbnail{
 
 
 
+table{
+	background:#FFF;
+}
+.fill{
+	width: 100%;
+	height: 50px;
+	font-size: 30px;
+	line-height: 30px;
+}
+.well .fill{
+	background: #444;
+	color: #FFF;
+}
+.calculator input{
+	width: 100%;
+}
 
 
-
-
-
-
-
-
-
+input{
+	color: #000;
+}
 
 
 

@@ -1,28 +1,25 @@
 <div class="well light">
 	<h1>Shopping Cart</h1>
-	<div class="row">
+	<div class="row" ng-show="cart.status=='pending'">
 		<div class="col-md-4" ng-repeat="item in cart.items">
-			<a href="#/products/item/{{item.objectId}}">
-				<div class="well">
-					<h1>{{item.title}}</h1>
+			<div class="well">
+				<h1>{{item.title}}</h1>
+				<a href="#/products/item/{{item.objectId}}">
 					<img class="thumbnail fit" ng-src="{{item.pic.src}}"></img>
-					<p>Quantity: {{item.quantity}}</p>
-				</div>
-			</a>
+				</a>
+				<p>Quantity: <input type="number" size="2" ng-model="item.quantity" ng-change="rootTools.cart.update()"></p>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<p>Total: {{cart.total | currency}}</p>
+			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
+			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()">Order</a>
 		</div>
 	</div>
-	<h3>Checkout Comming Soon</h3>
-	<p>Total: {{cart.total | currency}}</p>
-	<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
-	<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()">Place Order</a>
-	<!--<form action="" method="POST">-->
-	<!--	<script-->
-	<!--		src="https://checkout.stripe.com/checkout.js" class="stripe-button"-->
-	<!--		data-key="pk_test_RpBXbaWcBPqTClAMhJGLS9kx"-->
-	<!--		data-amount="{{caart.total}}"-->
-	<!--		data-name="Llumitech"-->
-	<!--		data-description="Lighting Products"-->
-	<!--		data-image="/assets/img/42.png">-->
-	<!--	</script>-->
-	<!--</form>-->
+	<div class="row" ng-show="cart.status=='empty'">
+		<h2>Your cart is empty.</h2>
+	</div>
+	<div class="row" ng-show="cart.status=='ordered'">
+		<h2>Thanks for your purchase!  <br>You will get an email shortly.</h2>
+	</div>
 </div>

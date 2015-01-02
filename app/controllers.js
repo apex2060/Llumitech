@@ -107,7 +107,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 		},
 		cart:{
 			reset:function(){
-				$rootScope.cart = {items:[],total:0};
+				$rootScope.cart = {items:[],total:0,status:'empty'};
 				rootTools.cart.save($rootScope.cart);
 			},
 			init:function(){
@@ -120,21 +120,26 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			priceCheck: function(){
 				//Go through all items in cart and update prices.	
 			},
-			checkout:function(card){
-				// card needs: {number,cvc,exp_month,exp_year}
-				Stripe.card.createToken(card, function(status, response){
-					if(respoonse.error){
-						rootTools.alert.add('danger', response.error.message)
-					}else{
-						var token = response.id;
-						//call parse functionn to charge card.
-					}
+			cc: function(ccInfo){
+				Stripe.card.createToken(ccInfo, function(status, response){
+					console.log('checkout', status, response)
+					$http.post(config.parseRoot+'functions/stripeCreate', {stripeToken: response.id}).success(function(customer){
+						console.log('Customer: ', customer)
+					})
+				});
+			},
+			checkout:function(ccInfo) {
+				console.log('checkout', ccInfo)
+				Stripe.card.createToken(ccInfo, function(status, response){
+					console.log('checkout', status, response)
+					$http.post(config.parseRoot+'functions/stripeCreate', {stripeToken: response.id}).success(function(customer){
+						console.log('Customer: ', customer)
+					})
 				});
 			},
 			add:function(product, quantity){
 				var cart = $rootScope.cart;
-					cart.total = 0;
-					cart.discounted = 0;
+					cart.status = 'pending';
 				if(!quantity)
 					quantity = 1;
 				
@@ -150,8 +155,16 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					var temp = angular.extend(product, {quantity:quantity});
 					$rootScope.cart.items.push(temp)
 				}
+				rootTools.cart.update();
+			},
+			update:function(){
+				var cart = $rootScope.cart;
+					cart.total = 0;
+					cart.discounted = 0;
 				cart.quantity = 0;
 				for(var i=0; i<cart.items.length; i++){
+					if(cart.items[i].quantity < 0)
+						cart.items[i].quantity = 0;
 					cart.quantity += cart.items[i].quantity;
 					if(cart.items[i].price)
 						cart.total += cart.items[i].price * cart.items[i].quantity;
@@ -162,6 +175,15 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			},
 			save:function(cart){
 				localStorage.cart = angular.toJson(cart)
+			},
+			order:function(){
+				var cart = $rootScope.cart;
+				$http.post(config.parseRoot+'classes/Order', cart).success(function(results){
+					$rootScope.cart = {items:[],total:0,status:results.status};
+					rootTools.cart.save($rootScope.cart);
+					if(results.status == 'pending')
+						window.location.href = config.appEngineUrl+'/#/cc';
+				});
 			}
 		}
 	}
