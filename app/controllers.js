@@ -122,12 +122,17 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			},
 			cc: function(ccInfo){
 				Stripe.card.createToken(ccInfo, function(status, response){
-					$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
-						$rootScope.temp.card = {};
-						alert('Your order has been placed!  You should get an email shortly.')
-					}).error(function(error){
-						$rootScope.alert('error', 'Something is wrong, please check all your information and try again.')
-					})
+					console.log(status,response);
+					if(response.error){
+						rootTools.alert('error', response.error.message)
+					}else{
+						$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
+							$rootScope.temp.card = {};
+							alert('Your order has been placed!  You should get an email shortly.')
+						}).error(function(error){
+							$rootScope.alert('error', 'The card information could not be validated, please check all your information and try again.')
+						})
+					}
 				});
 			},
 			add:function(product, quantity){
