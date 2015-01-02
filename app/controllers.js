@@ -124,11 +124,11 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 				Stripe.card.createToken(ccInfo, function(status, response){
 					console.log(status,response);
 					if(response.error){
-						rootTools.alert('error', response.error.message)
+						$rootScope.alert('error', response.error.message)
 					}else{
 						$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
 							$rootScope.temp.card = {};
-							alert('Your order has been placed!  You should get an email shortly.')
+							$rootScope.alert('success','Your order has been placed!  You should get an email shortly.')
 						}).error(function(error){
 							$rootScope.alert('error', 'The card information could not be validated, please check all your information and try again.')
 						})
