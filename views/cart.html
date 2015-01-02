@@ -10,17 +10,22 @@
 				<p>Quantity: <input type="number" size="2" ng-model="item.quantity" ng-change="rootTools.cart.update()"></p>
 			</div>
 		</div>
-		<div class="col-md-12">
+		<div class="col-md-12" ng-show="user">
 			<p>Total: {{cart.total | currency}}</p>
 			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
 			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.stripe">Continue</a>
 			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.stripe">Place Order</a>
 		</div>
+		<div class="col-md-12" ng-hide="user">
+			<p>Total: {{cart.total | currency}}</p>
+			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
+			<a href="#/login" class="btn btn-primary pull-right">Login</a>
+		</div>
 	</div>
 	<div class="row" ng-show="cart.status=='empty'">
 		<h2>Your cart is empty.</h2>
 	</div>
-	<div class="row" ng-show="cart.status=='ordered'">
+	<div class="row" ng-show="cart.status=='paid'">
 		<h2>Thanks for your purchase!  <br>You will get an email shortly.</h2>
 	</div>
 	<div class="row" ng-show="cart.status=='pending'">

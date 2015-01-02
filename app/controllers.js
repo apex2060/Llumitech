@@ -125,6 +125,8 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
 						$rootScope.temp.card = {};
 						alert('Your order has been placed!  You should get an email shortly.')
+					}).error(function(error){
+						$rootScope.alert('error', 'Something is wrong, please check all your information and try again.')
 					})
 				});
 			},
