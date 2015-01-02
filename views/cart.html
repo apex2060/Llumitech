@@ -12,12 +12,17 @@
 		</div>
 		<div class="col-md-12" ng-show="user">
 			<p>Total: {{cart.total | currency}}</p>
+			<p ng-show="rootTools.user.is('Contractor')">Contractor Discount: {{cart.discounted | currency}}</p>
+			<p ng-show="user.card" style="text-align:right;">
+				A {{cart.total | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
+			</p>
 			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
-			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.stripe">Continue</a>
-			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.stripe">Place Order</a>
+			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.card">Continue</a>
+			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.card">Order Now!</a>
 		</div>
 		<div class="col-md-12" ng-hide="user">
-			<p>Total: {{cart.total | currency}}</p>
+			<p ng-hide="rootTools.user.is('Contractor')">Total: {{cart.total | currency}}</p>
+			<p ng-show="rootTools.user.is('Contractor')">Total: {{cart.discounted | currency}}</p>
 			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
 			<a href="#/login" class="btn btn-primary pull-right">Login</a>
 		</div>

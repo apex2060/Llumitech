@@ -20,15 +20,15 @@ app.factory('userService', function ($rootScope, $http, $q, config) {
 			}
  			$http.get(config.parseRoot+'users/me').success(function(data){
  				//Add a weird hack because /me does not return all information stored in the user object.
- 				$http.get(config.parseRoot+'users/'+data.objectId).success(function(data){
- 					$rootScope.user=data;
+ 				$http.get(config.parseRoot+'users/'+data.objectId).success(function(user){
+ 					$rootScope.user=user;
+	 				userService.getRoles(data).then(function(roles){
+	 					data.roles = roles;
+		 				$rootScope.user=data;
+		 				localStorage.user = angular.toJson($rootScope.user);
+		 				$rootScope.$broadcast('authenticated', data);
+	 				})
  				});
- 				userService.getRoles(data).then(function(roles){
- 					data.roles = roles;
-	 				$rootScope.user=data;
-	 				localStorage.user = angular.toJson($rootScope.user);
-	 				$rootScope.$broadcast('authenticated', data);
- 				})
  			}).error(function(){
 				//Prompt for login
 			});

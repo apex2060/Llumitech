@@ -116,13 +116,20 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					$rootScope.cart = angular.fromJson(localStorage.cart)
 				else
 					rootTools.cart.reset();
+				rootTools.cart.stripeData();
 			},
 			priceCheck: function(){
 				//Go through all items in cart and update prices.	
 			},
+			stripeData: function(){
+				userService.user().then(function(){
+					$http.post(config.parseRoot+'functions/stripeData', {}).success(function(data){
+						$rootScope.user.card = data.result.cards.data[0]
+					});
+				});
+			},
 			cc: function(ccInfo){
 				Stripe.card.createToken(ccInfo, function(status, response){
-					console.log(status,response);
 					if(response.error){
 						$rootScope.alert('error', response.error.message)
 						$rootScope.$apply();
