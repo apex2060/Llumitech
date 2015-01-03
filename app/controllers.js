@@ -130,17 +130,27 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					}
 				});
 			},
-			cc: function(ccInfo){
+			ccInit: function(){
+				$http.post(config.parseRoot+'functions/orderDetails', {orderId: $routeParams.orderId, token: $routeParams.token}).success(function(data){
+					$rootScope.cart = data.result;
+				}).error(function(error){
+					$rootScope.alert('error', 'The order could not be found.')
+					$rootScope.temp.card = {status: 'error'};
+				})
+			},
+			ccCheckout: function(ccInfo){
 				Stripe.card.createToken(ccInfo, function(status, response){
 					if(response.error){
 						$rootScope.alert('error', response.error.message)
 						$rootScope.$apply();
 					}else{
+						$rootScope.temp.card.status = 'processing';
 						$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
-							$rootScope.temp.card = {};
-							$rootScope.alert('success','Your order has been placed!  You should get an email shortly.')
+							$rootScope.temp.card = {status: 'saved'};
+							rootTools.cart.reset();
 						}).error(function(error){
 							$rootScope.alert('error', 'The card information could not be validated, please check all your information and try again.')
+							$rootScope.temp.card.status = null;
 						})
 					}
 				});
@@ -190,7 +200,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					$rootScope.cart = {items:[],total:0,status:results.status};
 					rootTools.cart.save($rootScope.cart);
 					if(results.status == 'pending')
-						window.location.href = config.appEngineUrl+'/#/cc?orderId='+results.objectId;
+						window.location.href = config.appEngineUrl+'/#/cartCC?orderId='+results.objectId+'&token='+results.token;
 				});
 			}
 		}

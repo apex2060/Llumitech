@@ -1,5 +1,7 @@
 app.factory('config', function ($rootScope, $http) {
 	var config = {
+		siteUrl:	 		'https://llumitech-apex2060.c9.io',
+		// appEngineUrl:	 	'https://llumitech-apex2060.c9.io',
 		appEngineUrl: 		'https://lllumitech-com.appspot.com',
 		parseRoot: 			'https://api.parse.com/1/',
 	 	parseAppId: 		'GvabvDnhClVARdliG0Y9OFhZN672yb0x9er7EAMr',
