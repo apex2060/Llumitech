@@ -254,6 +254,9 @@ input, table{
 	color: #000;
 }
 
+.txtarea{
+	white-space:pre-wrap;
+}
 
 .child{
 	display:none;
