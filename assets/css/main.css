@@ -118,6 +118,19 @@ aside .well h4{
 
 
 
+
+#chat ul{
+	max-height: 300px;
+	overflow: auto;
+}
+.client .inbound, .rep .outbound{
+	margin-left: 20px;
+	text-align: right;
+}
+.client .outbound, .rep .inbound{
+	margin-right: 20px;
+}
+
 /*CSS Overrides*/
 .modal *{
 	color: #111;
@@ -252,8 +265,14 @@ input, table{
 
 /* RESPONSIVE */
 
-/* Small devices (tablets, 768px and down) */
-@media (max-width: 768px) {
+/* Small devices (tablets, 1000px and down) */
+@media (max-width: 1200px) and (min-width:500px) {
+	.point25{
+		width: 50%;
+	}
+}
+/* Small devices (phones, 400px and down) */
+@media (max-width: 500px) {
 	.point25{
 		width: 100%;
 	}

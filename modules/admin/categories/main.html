@@ -1,6 +1,6 @@
 <div class="well light" ng-controller="AdminCategoryCtrl">
 	<div class="row">
-		<div class="col-md-3" ng-repeat="category in categories">
+		<div class="col-md-3" ng-repeat="category in categories | orderBy:'position'">
 			<div class="well">
 				<div class="imgContainer h150">
 					<img class="fit" ng-src="{{category.pic.src}}"></img>

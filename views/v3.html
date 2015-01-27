@@ -3,7 +3,7 @@
 	<div class="row" ng-controller="MainCtrl">
 		<aside class="col-md-10 col-md-offset-1">
 			<div class="row">
-				<div class="col-md-3 col-sm-6 col-xs-6" ng-repeat="category in categories">
+				<div class="col-md-3 col-sm-6 col-xs-6" ng-repeat="category in categories | orderBy:'position'">
 					<div class="well">
 						<a href="#/products/list/{{category.objectId}}">
 							<img ng-src="{{category.pic.src}}"></img>

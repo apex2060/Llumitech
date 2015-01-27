@@ -1,0 +1,14 @@
+<div class="row" ng-controller="ChatCtrl">
+	<div id="chat" class="col-md-6 rep" ng-repeat="chat in chats">
+		<div class="well">
+			<h1>{{chat.from}}</h1>
+			<ul class="list-group">
+				<li class="list-group-item {{entry.direction}}" ng-repeat="entry in chat.conversation">{{entry.message}}</li>
+			</ul>
+			<form ng-submit="tools.send(chat)">
+				<input type="text" class="form-control" ng-model="chat.response" placeholder="Response">
+				<input type="submit" class="btn btn-block btn-success" value="Send">
+			</form>
+		</div>
+	</div>
+</div>

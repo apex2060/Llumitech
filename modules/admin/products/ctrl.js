@@ -14,9 +14,12 @@ var AdminProductCtrl = app.lazy.controller('AdminProductCtrl', function($rootSco
 			},
 			save:function(product){
 				product.category = product.category.objectId;
-				productResource.item.save(product).then(function(){
+				productResource.item.save(product).then(function(response){
 					$('#adminProductModal').modal('hide');
 					delete $scope.product;
+					$rootScope.alert('success', response)
+				}, function(error){
+					$rootScope.alert('error', error)
 				});
 			},
 			edit:function(product){

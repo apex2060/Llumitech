@@ -6,7 +6,7 @@
 		</div>
 		<aside class="col-md-2">
 			<div class="row">
-				<div class="col-sm-12 col-xs-6" ng-repeat="category in categories">
+				<div class="col-sm-12 col-xs-6" ng-repeat="category in categories | orderBy:'position'">
 					<div class="well">
 						<a href="#/products/list/{{category.objectId}}">
 							<img ng-src="{{category.pic.src}}"></img>
@@ -71,4 +71,18 @@
 		<span class="sr-only">Close</span>
 	</button>
 	<span>{{alert.message}}</span></div>
+</div>
+
+<div id="chat" class="bl point25 client">
+	<div class="well" ng-show="chat.objectId">
+		<ul class="list-group">
+			<li class="list-group-item active">Conversation</li>
+			<li class="list-group-item {{entry.direction}}" ng-repeat="entry in chat.conversation">{{entry.message}}</li>
+		</ul>
+		<form ng-submit="rootTools.chat.send(temp.chat.message)">
+			<input type="text" class="form-control" ng-model="temp.chat.message" placeholder="Message">
+			<input type="submit" class="btn btn-info btn-block" value="Send">
+		</form>
+	</div>
+	<a class="btn btn-info" ng-click="rootTools.chat.start()" ng-hide="chat.objectId" ng-show="user">Chat Live</a>
 </div>

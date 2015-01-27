@@ -15,6 +15,7 @@ var AdminCategoryCtrl = app.lazy.controller('AdminCategoryCtrl', function($rootS
 				categoryResource.item.save(category).then(function(){
 					delete $scope.category;
 					$('#adminCategoryModal').modal('hide');
+					$rootScope.alert('success', 'Category Saved.')
 				});
 			},
 			edit:function(category){

@@ -1,10 +1,11 @@
 var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $http, config, userService, dataService){
 	$rootScope.rp = $routeParams;
 	$rootScope.config = config;
+					
 	var categoryResource = new dataService.resource({className: 'Category', identifier:'categoryList'});
 	var productResource = new dataService.resource({className: 'Product', identifier:'productList'});
-	var partResource = new dataService.resource({className: 'Part', identifier:'partList'});
 	var contractorResource = new dataService.resource({className: 'Contractor', identifier:'contractorList'});
+	var chatResource = new dataService.resource({className: 'Chat', identifier:'chat'});
 	
 	// LISTEN LIVE
 	categoryResource.item.list().then(function(data){
@@ -21,13 +22,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 		if(data)
 			$rootScope.products = data.results;
 	})
-	partResource.item.list().then(function(data){
-		$rootScope.parts = data.results;
-	})
-	$rootScope.$on(partResource.listenId, function(event, data){
-		if(data)
-			$rootScope.parts = data.results;
-	})
+
 	
 	var rootTools = {
 		user: userService,
@@ -105,13 +100,52 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 				}
 			});
 		},
+		chat: {
+			start:function(){
+				chatResource.item.list().then(function(data){
+					if(data)
+						$rootScope.chat = data.results[0];
+					else
+						createChat();
+				})
+				$rootScope.$on(chatResource.listenId, function(event, data){
+					if(data)
+						$rootScope.chat = data.results[0];
+					else
+						createChat();
+				})
+				
+				function createChat(){
+					$rootScope.temp.chat = {
+						direction: 'inbound',
+						message: null
+					}
+					var chat = {
+						conversation: []
+					};
+					chatResource.item.save(chat).then(function(cc){
+						console.log('cc',cc);
+					})
+				}
+			},
+			send: function(message){
+				if(message){
+					var chat = angular.copy($rootScope.chat)
+					chat.conversation.push({direction:'inbound', message:message})
+					chatResource.item.save(chat).then(function(cc){
+						$rootScope.alert('success', 'Sent')
+						$rootScope.temp.chat.message = null;
+					})
+				}
+			}
+		},
 		cart:{
 			reset:function(){
 				$rootScope.cart = {items:[],total:0,status:'empty'};
 				rootTools.cart.save($rootScope.cart);
 			},
 			init:function(){
-				Stripe.setPublishableKey('pk_test_RpBXbaWcBPqTClAMhJGLS9kx');
+				Stripe.setPublishableKey(config.stripeKey);
 				if(localStorage.cart)
 					$rootScope.cart = angular.fromJson(localStorage.cart)
 				else
@@ -178,7 +212,8 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			update:function(){
 				var cart = $rootScope.cart;
 					cart.total = 0;
-					cart.discounted = 0;
+					cart.contDiscounts = 0;
+					cart.otherDiscounts = 0;
 				cart.quantity = 0;
 				for(var i=0; i<cart.items.length; i++){
 					if(cart.items[i].quantity < 0)
@@ -187,8 +222,14 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					if(cart.items[i].price)
 						cart.total += cart.items[i].price * cart.items[i].quantity;
 					if(cart.items[i].discounted)
-						cart.discounted += cart.items[i].discounted * cart.items[i].quantity;
+						cart.contDiscounts -= (cart.items[i].price - cart.items[i].discounted) * cart.items[i].quantity; //Discounted price is positive
 				}
+				if(cart.discounts)
+					for(var i=0; i<cart.discounts.length; i++)
+						cart.otherDiscounts += cart.discounts[i].amount; //Discounts are listed negative.
+				
+				cart.allDiscounts = cart.contDiscounts + cart.otherDiscounts
+				cart.final = cart.total + cart.allDiscounts;
 				rootTools.cart.save(cart);
 			},
 			save:function(cart){
@@ -202,6 +243,31 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					if(results.status == 'pending')
 						window.location.href = config.appEngineUrl+'/#/cartCC?orderId='+results.objectId+'&token='+results.token;
 				});
+			},
+			addDiscount:function(discount){
+				if(!$rootScope.cart.discounts)
+					$rootScope.cart.discounts = [];
+				discount.amount = -discount.amount;
+				$rootScope.cart.discounts.push(discount);
+				$rootScope.temp.discount = {};
+				rootTools.cart.update()
+			},
+			removeDiscount:function(discount){
+				var discounts = $rootScope.cart.discounts; 
+				var i = discounts.indexOf(discount);
+				discounts.splice(i,1)
+				rootTools.cart.update();
+			},
+			invoice:function(){
+				var cart = $rootScope.cart;
+				if(!cart.client || !cart.client.email){
+					$rootScope.alert('error', 'You must enter an email to create and send an Invoice.')
+				}else{
+					$http.post(config.parseRoot+'classes/Invoice', cart).success(function(results){
+						$rootScope.cart = {items:[],total:0,status:results.status};
+						rootTools.cart.save($rootScope.cart);
+					});
+				}
 			}
 		}
 	}
