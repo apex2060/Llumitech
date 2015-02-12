@@ -26,6 +26,12 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="productShipping" class="col-lg-3 control-label">Shipping/Unit</label>
+						<div class="col-lg-9">
+							<input type="text" class="form-control" id="productShipping" ng-model="product.shipping">
+						</div>
+					</div>
+					<div class="form-group">
 						<label for="productCategory" class="col-lg-3 control-label">Category</label>
 						<div class="col-lg-9">
 						<select class="form-control" id="productCategory" ng-model="product.category" ng-options="category.title for category in categories"></select>

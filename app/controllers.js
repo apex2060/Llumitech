@@ -141,8 +141,19 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 		},
 		cart:{
 			reset:function(){
-				$rootScope.cart = {items:[],total:0,status:'empty'};
+				$rootScope.cart = {
+					items:[],
+					total:0,
+					status:'empty',
+				};
 				rootTools.cart.save($rootScope.cart);
+					
+				userService.user().then(function(user){
+					$http.get('assets/json/zipcodes.json').success(function(zipcodes){
+						$rootScope.cart.utahShipping = zipcodes.indexOf(user.zip) != -1
+					});
+					rootTools.cart.save($rootScope.cart);
+				});
 			},
 			init:function(){
 				Stripe.setPublishableKey(config.stripeKey);
@@ -209,27 +220,45 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 				}
 				rootTools.cart.update();
 			},
+			toggleCdiscount:function(){
+				$rootScope.cart.asContractor = !$rootScope.cart.asContractor;
+				rootTools.cart.update();
+			},
+			toggleShipping:function(){
+				$rootScope.cart.utahShipping = !$rootScope.cart.utahShipping;
+				rootTools.cart.update();
+			},
 			update:function(){
 				var cart = $rootScope.cart;
-					cart.total = 0;
-					cart.contDiscounts = 0;
+					cart.subtotal 		= 0;
+					cart.contDiscounts 	= 0;
 					cart.otherDiscounts = 0;
-				cart.quantity = 0;
+					cart.shipping 		= 0;
+					cart.quantity 		= 0;
+					
 				for(var i=0; i<cart.items.length; i++){
 					if(cart.items[i].quantity < 0)
 						cart.items[i].quantity = 0;
 					cart.quantity += cart.items[i].quantity;
 					if(cart.items[i].price)
-						cart.total += cart.items[i].price * cart.items[i].quantity;
-					if(cart.items[i].discounted)
-						cart.contDiscounts -= (cart.items[i].price - cart.items[i].discounted) * cart.items[i].quantity; //Discounted price is positive
+						cart.subtotal += Number(cart.items[i].price) * cart.items[i].quantity;
+					if(cart.items[i].shipping)
+						cart.shipping += Number(cart.items[i].shipping) * cart.items[i].quantity;
+					if(rootTools.user.is('Contractor') || cart.asContractor)
+						if(cart.items[i].discounted)
+							cart.contDiscounts -= (Number(cart.items[i].price) - Number(cart.items[i].discounted)) * cart.items[i].quantity; //Discounted price is positive
 				}
 				if(cart.discounts)
 					for(var i=0; i<cart.discounts.length; i++)
 						cart.otherDiscounts += cart.discounts[i].amount; //Discounts are listed negative.
+
+				if(cart.shipping < 9.5)
+					cart.shipping = 9.5
+				if(cart.utahShipping && cart.shipping > 30)
+					cart.shipping = 30;
 				
-				cart.allDiscounts = cart.contDiscounts + cart.otherDiscounts
-				cart.final = cart.total + cart.allDiscounts;
+				cart.allDiscounts = Number(cart.contDiscounts) + Number(cart.otherDiscounts)
+				cart.total = cart.subtotal + cart.allDiscounts + cart.shipping;
 				rootTools.cart.save(cart);
 			},
 			save:function(cart){

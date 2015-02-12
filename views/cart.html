@@ -5,36 +5,55 @@
 			<div class="well">
 				<h1>{{item.title}}</h1>
 				<a href="#/products/item/{{item.objectId}}">
-					<img class="thumbnail fit" ng-src="{{item.pic.src}}"></img>
+					<img class="thumbnail" ng-src="{{item.thumbnail.url}}"></img>
 				</a>
+				<br>
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Quantity: </span>
 					<input type="number" class="form-control" ng-model="item.quantity" ng-change="rootTools.cart.update()">
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12" ng-show="user">
-			<p>Total: {{cart.total | currency}}</p>
-			<p ng-show="rootTools.user.is('Contractor')">Contractor Discount: {{cart.contDiscounts | currency}}</p>
-			<div ng-show="user.card">
-				<p ng-hide="rootTools.user.is('Contractor')" style="text-align:right;">
-					A {{cart.total | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
-				</p>
-				<p ng-show="rootTools.user.is('Contractor')" style="text-align:right;">
-					A {{cart.final | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
-				</p>
+		<div class="col-md-12">
+			<table class="table table-hover">
+				<tbody>
+					<tr>
+						<td style="text-align:right;">Subtotal: </td>
+						<td>{{cart.subtotal | currency}}</td>
+					</tr>
+					<tr ng-show="rootTools.user.is('Contractor')">
+						<td style="text-align:right;">Contractor Discount: </td>
+						<td>{{cart.contDiscounts | currency}}</td>
+					</tr>
+					<tr ng-hide="rootTools.user.is('Contractor') || !cart.allDiscounts">
+						<td style="text-align:right;">Discounts: </td>
+						<td>{{cart.allDiscounts | currency}}</td>
+					</tr>
+					<tr>
+						<td style="text-align:right;">Shipping: </td>
+						<td>{{cart.shipping | currency}}</td>
+					</tr>
+					<tr class="success">
+						<td style="text-align:right;">Total: </td>
+						<td>{{cart.total | currency}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div ng-hide="user">
+				<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
+				<a href="#/login" class="btn btn-primary pull-right">Login</a>
 			</div>
-			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
-			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.card || rootTools.user.is('Manager')">Continue</a>
-			<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.card && !rootTools.user.is('Manager')">Order Now!</a>
-			<a class="btn btn-info pull-right" href="#/invoice" ng-show="rootTools.user.is('Manager')">Create Invoice</a>
-		</div>
-		<div class="col-md-12" ng-hide="user">
-			<p ng-hide="rootTools.user.is('Contractor')">Total: 	{{cart.total | currency}}</p>
-			<p ng-hide="rootTools.user.is('Contractor')">Discounts: {{cart.allDiscounts | currency}}</p>
-			<p ng-show="rootTools.user.is('Contractor')">Final: 	{{cart.final | currency}}</p>
-			<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
-			<a href="#/login" class="btn btn-primary pull-right">Login</a>
+			<div ng-show="user">
+				<div ng-show="user.card">
+					<p style="text-align:right;">
+						A {{cart.total | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
+					</p>
+				</div>
+				<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
+				<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.card || rootTools.user.is('Manager')">Continue</a>
+				<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.card && !rootTools.user.is('Manager')">Order Now!</a>
+				<a class="btn btn-info pull-right" href="#/invoice" ng-show="rootTools.user.is('Manager')">Create Invoice</a>
+			</div>
 		</div>
 	</div>
 	<div class="row" ng-show="cart.status=='empty'">

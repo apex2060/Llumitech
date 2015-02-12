@@ -51,16 +51,22 @@
 				<td>{{item.quantity}}</td>
 				<td>{{item.price | currency}}</td>
 			</tr>
-			<tr class="success">
+			<tr>
 				<td colspan="3" style="text-align:right;">Subtotal: </td>
-				<td>{{cart.total | currency}}</td>
+				<td>{{cart.subtotal | currency}}</td>
 			</tr>
-			<tr class="success">
-				<td colspan="3" style="text-align:right;">Contractor Discounts: </td>
+			<tr>
+				<td><a class="btn btn-xs btn-warning" ng-click="rootTools.cart.toggleShipping()">Toggle</a></a></td>
+				<td colspan="2" style="text-align:right;">Shipping: </td>
+				<td>{{cart.shipping | currency}}</td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-xs btn-warning" ng-click="rootTools.cart.toggleCdiscount()">Toggle</a></a></td>
+				<td colspan="2" style="text-align:right;">Contractor Discounts: </td>
 				<td>{{cart.contDiscounts | currency}}</td>
 			</tr>
 			<tr class="success" ng-repeat="discount in cart.discounts">
-				<td><a class="btn btn-info" ng-click="rootTools.cart.removeDiscount(discount)"><i class="fa fa-trash"></i></a></td>
+				<td><a class="btn btn-xs btn-info" ng-click="rootTools.cart.removeDiscount(discount)"><i class="fa fa-trash"></i></a></td>
 				<td colspan="2">{{discount.title}}</td>
 				<td>{{discount.amount | currency}}</td>
 			</tr>
@@ -79,7 +85,7 @@
 			</tr>
 			<tr class="success">
 				<td colspan="3" style="text-align:right;">Total: </td>
-				<td>{{cart.final | currency}}</td>
+				<td>{{cart.total | currency}}</td>
 			</tr>
 		</tbody>
 	</table>

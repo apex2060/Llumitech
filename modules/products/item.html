@@ -28,6 +28,7 @@
 					<span type="submit" class="input-group-addon" ng-click="rootTools.cart.add(product, quantity)">Add To Cart</span>
 				</div>
 			</form>
+			<a href="#/admin/products/{{product.objectId}}" class="btn btn-block btn-warning" ng-show="rootTools.user.is('Manager')">Edit</a>
 		</div>
 	</div>
 </div>

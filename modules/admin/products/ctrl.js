@@ -2,9 +2,15 @@ var AdminProductCtrl = app.lazy.controller('AdminProductCtrl', function($rootSco
 	var productResource = new dataService.resource({className: 'Product', identifier:'productList'});
 	var partResource = new dataService.resource({className: 'Part', identifier:'partList'});
 	var contractorResource = new dataService.resource({className: 'Contractor', identifier:'contractorList'});
-	
+
 	var tools = {
 		product: {
+			init:function(){
+				if($routeParams.id)
+					productResource.item.get($routeParams.id).then(function(product){
+						tools.product.edit(product)
+					});
+			},
 			add:function(){
 				$scope.product = {};
 				$('#adminProductModal').modal('show');
@@ -23,7 +29,7 @@ var AdminProductCtrl = app.lazy.controller('AdminProductCtrl', function($rootSco
 				});
 			},
 			edit:function(product){
-				//Associate category with product for dropdown...
+				//Associate category with product for drhopdown...
 				$scope.product = product;
 				$('#adminProductModal').modal('show');
 			},

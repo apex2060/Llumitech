@@ -13,11 +13,15 @@ var UserCtrl = app.lazy.controller('UserCtrl', function($rootScope, $scope, $htt
 					lastName: profile.lastName,
 					email: profile.email,
 					phone: profile.phone,
+					address: profile.address,
+					zip: profile.zip,
 					pic: profile.pic
 				}
 				$http.put('https://api.parse.com/1/users/'+profile.objectId, profileUpdates).success(function(){
 					$rootScope.user = angular.extend($rootScope.user, profileUpdates);
 					$rootScope.alert('success', 'Profile Updated!')
+				}).error(function(error){
+					$rootScope.alert('error', error)
 				})
 			},
 			uploadPic:function(details, src){
