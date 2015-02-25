@@ -312,6 +312,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 				})
 			},
 			ccCheckout: function(ccInfo){
+				$rootScope.alert('info', 'Processing Payment...')
 				Stripe.card.createToken(ccInfo, function(status, response){
 					if(response.error){
 						$rootScope.alert('error', response.error.message)
@@ -330,6 +331,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			order:function(){
 				var cart = angular.copy($rootScope.cart);
 					cart.invoice = dataService.parse.pointer('Invoice', cart.objectId);
+					cart.status = 'pending';
 					delete cart.objectId;
 					delete cart.className;
 					delete cart.createdAt;
@@ -337,7 +339,6 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 					delete cart.client;
 					delete cart.message;
 					delete cart.__type;
-					cart.status = 'pending';
 					
 				$http.post(config.parseRoot+'classes/Order', cart).success(function(results){
 					rootTools.cart.save({items:[],total:0,status:results.status});
