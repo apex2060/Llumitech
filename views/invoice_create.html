@@ -1,0 +1,93 @@
+<div class="well light">
+	<h1>Invoice</h1>
+	<table class="table table-hover">
+		<tbody>
+			<tr>
+				<td>Customer</td>
+				<td>
+					<input type="text" class="form-control" ng-model="cart.client.fullName" placeholder="Full Name">
+				</td>
+			</tr>
+			<tr>
+				<td>Phone</td>
+				<td>
+					<input type="text" class="form-control" ng-model="cart.client.phone" placeholder="555-555-5555">
+				</td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td>
+					<input type="text" class="form-control" ng-model="cart.client.email">
+				</td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td>
+					<textarea class="form-control" ng-model="cart.client.address"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>Message</td>
+				<td>
+					<textarea class="form-control" ng-model="cart.message"></textarea>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Item</th>
+				<th>Quantity</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in cart.items">
+				<td>{{$index + 1}}</td>
+				<td>{{item.title}}</td>
+				<td>{{item.quantity}}</td>
+				<td>{{item.price | currency}}</td>
+			</tr>
+			<tr>
+				<td colspan="3" style="text-align:right;">Subtotal: </td>
+				<td>{{cart.subtotal | currency}}</td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-xs btn-warning" ng-click="rootTools.cart.toggleShipping()">Toggle</a></a></td>
+				<td colspan="2" style="text-align:right;">Shipping: </td>
+				<td>{{cart.shipping | currency}}</td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-xs btn-warning" ng-click="rootTools.cart.toggleCdiscount()">Toggle</a></a></td>
+				<td colspan="2" style="text-align:right;">Contractor Discounts: </td>
+				<td>{{cart.contDiscounts | currency}}</td>
+			</tr>
+			<tr class="success" ng-repeat="discount in cart.discounts">
+				<td><a class="btn btn-xs btn-info" ng-click="rootTools.cart.removeDiscount(discount)"><i class="fa fa-trash"></i></a></td>
+				<td colspan="2">{{discount.title}}</td>
+				<td>{{discount.amount | currency}}</td>
+			</tr>
+			<tr>
+				<td> <a class="btn btn-info" ng-click="rootTools.cart.addDiscount(temp.discount)">Add</a></td>
+				<td colspan="2">
+					<input type="text" class="form-control" ng-model="temp.discount.title" placeholder="Discount Description">
+				</td>
+				<td>
+					<input type="number" class="form-control" ng-model="temp.discount.amount" placeholder="amount">
+				</td>
+			</tr>
+			<tr class="success">
+				<td colspan="3" style="text-align:right;">Total Discounts: </td>
+				<td>{{cart.allDiscounts | currency}}</td>
+			</tr>
+			<tr class="success">
+				<td colspan="3" style="text-align:right;">Total: </td>
+				<td>{{cart.total | currency}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<a class="btn btn-block btn-info" ng-click="rootTools.cart.invoice()">Send Invoice</a>
+</div>

@@ -168,7 +168,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			},
 			stripeData: function(){
 				userService.user().then(function(user){
-					if(user.stripe){
+					if(user.stripe && !user.card){
 						$http.post(config.parseRoot+'functions/stripeData', {}).success(function(data){
 							$rootScope.user.card = data.result.cards.data[0]
 						});
@@ -297,7 +297,55 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 						rootTools.cart.save($rootScope.cart);
 					});
 				}
+			},
+			itemTotal:function(item){
+				return Number(item.price) * Number(item.quantity);
 			}
+		},
+		invoice:{
+			init: function(){
+				$http.post(config.parseRoot+'functions/invoiceDetails', {invoiceId: $routeParams.invoiceId, token: $routeParams.token}).success(function(data){
+					$rootScope.cart = data.result;
+				}).error(function(error){
+					$rootScope.alert('error', 'The invoice could not be found.')
+					$rootScope.temp.card = {status: 'error'};
+				})
+			},
+			ccCheckout: function(ccInfo){
+				Stripe.card.createToken(ccInfo, function(status, response){
+					if(response.error){
+						$rootScope.alert('error', response.error.message)
+						$rootScope.$apply();
+					}else{
+						$rootScope.temp.card.status = 'processing';
+						$http.post(config.parseRoot+'functions/stripeCreate', {orderId: $routeParams.orderId, stripeToken: response.id}).success(function(customer){
+							$rootScope.temp.card = {status: 'saved'};
+						}).error(function(error){
+							$rootScope.alert('error', 'The card information could not be validated, please check all your information and try again.')
+							$rootScope.temp.card.status = null;
+						})
+					}
+				});
+			},
+			order:function(){
+				var cart = angular.copy($rootScope.cart);
+					cart.invoice = dataService.parse.pointer('Invoice', cart.objectId);
+					delete cart.objectId;
+					delete cart.className;
+					delete cart.createdAt;
+					delete cart.updatedAt;
+					delete cart.client;
+					delete cart.message;
+					delete cart.__type;
+					cart.status = 'pending';
+					
+				$http.post(config.parseRoot+'classes/Order', cart).success(function(results){
+					rootTools.cart.save({items:[],total:0,status:results.status});
+					$rootScope.cart.status = results.status
+					if(results.status == 'pending')
+						window.location.href = config.appEngineUrl+'/#/invoiceCC?orderId='+results.objectId+'&token='+results.token;
+				});
+			},
 		}
 	}
 	$rootScope.alert = rootTools.alert.add;

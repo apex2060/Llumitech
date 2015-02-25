@@ -1,93 +1,89 @@
-<div class="well light">
-	<h1>Order</h1>
+<div class="well light" ng-init="rootTools.invoice.init()">
+	<h1>Invoice</h1>
 	<table class="table table-hover">
 		<tbody>
 			<tr>
-				<td>Customer</td>
 				<td>
-					<input type="text" class="form-control" ng-model="cart.client.fullName" placeholder="Full Name">
+					<h3>To: </h3>
+					<p>{{cart.client.fullName}}<br>{{cart.client.phone}}<br>{{cart.client.email}}<br>{{cart.client.address}}</p>
 				</td>
-			</tr>
-			<tr>
-				<td>Phone</td>
 				<td>
-					<input type="text" class="form-control" ng-model="cart.client.phone" placeholder="555-555-5555">
-				</td>
-			</tr>
-			<tr>
-				<td>Email</td>
-				<td>
-					<input type="text" class="form-control" ng-model="cart.client.email">
-				</td>
-			</tr>
-			<tr>
-				<td>Address</td>
-				<td>
-					<textarea class="form-control" ng-model="cart.client.address"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td>Message</td>
-				<td>
-					<textarea class="form-control" ng-model="cart.message"></textarea>
+					<p>{{cart.message}}</p>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-
+	
 	<table class="table table-hover">
 		<thead>
 			<tr>
 				<th>#</th>
 				<th>Item</th>
-				<th>Quantity</th>
 				<th>Price</th>
+				<th>Quantity</th>
+				<th>Total</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in cart.items">
 				<td>{{$index + 1}}</td>
 				<td>{{item.title}}</td>
-				<td>{{item.quantity}}</td>
 				<td>{{item.price | currency}}</td>
+				<td>{{item.quantity}}</td>
+				<td>{{rootTools.cart.itemTotal(item) | currency}}</td>
 			</tr>
 			<tr>
-				<td colspan="3" style="text-align:right;">Subtotal: </td>
+				<td colspan="4" style="text-align:right;">Subtotal: </td>
 				<td>{{cart.subtotal | currency}}</td>
 			</tr>
 			<tr>
-				<td><a class="btn btn-xs btn-warning" ng-click="rootTools.cart.toggleShipping()">Toggle</a></a></td>
-				<td colspan="2" style="text-align:right;">Shipping: </td>
+				<td colspan="4" style="text-align:right;">Shipping: </td>
 				<td>{{cart.shipping | currency}}</td>
 			</tr>
-			<tr>
-				<td><a class="btn btn-xs btn-warning" ng-click="rootTools.cart.toggleCdiscount()">Toggle</a></a></td>
-				<td colspan="2" style="text-align:right;">Contractor Discounts: </td>
+			<tr class="success">
+				<td colspan="4" style="text-align:right;">Contractor Discounts: </td>
 				<td>{{cart.contDiscounts | currency}}</td>
 			</tr>
 			<tr class="success" ng-repeat="discount in cart.discounts">
-				<td><a class="btn btn-xs btn-info" ng-click="rootTools.cart.removeDiscount(discount)"><i class="fa fa-trash"></i></a></td>
-				<td colspan="2">{{discount.title}}</td>
+				<td colspan="4" style="text-align:right;">{{discount.title}}</td>
 				<td>{{discount.amount | currency}}</td>
 			</tr>
-			<tr>
-				<td> <a class="btn btn-info" ng-click="rootTools.cart.addDiscount(temp.discount)">Add</a></td>
-				<td colspan="2">
-					<input type="text" class="form-control" ng-model="temp.discount.title" placeholder="Discount Description">
-				</td>
-				<td>
-					<input type="number" class="form-control" ng-model="temp.discount.amount" placeholder="amount">
-				</td>
-			</tr>
 			<tr class="success">
-				<td colspan="3" style="text-align:right;">Total Discounts: </td>
+				<td colspan="4" style="text-align:right;">Total Discounts: </td>
 				<td>{{cart.allDiscounts | currency}}</td>
 			</tr>
-			<tr class="success">
-				<td colspan="3" style="text-align:right;">Total: </td>
+			<tr>
+				<td colspan="4" style="text-align:right;">Total: </td>
 				<td>{{cart.total | currency}}</td>
 			</tr>
 		</tbody>
 	</table>
-	<a class="btn btn-block btn-info" ng-click="rootTools.cart.invoice()">Send Invoice</a>
+	<div class="row">
+		<div class="col-md-12">
+			<div ng-hide="user">
+				<!--<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>-->
+				<a href="#/login" class="btn btn-primary pull-right">Login</a>
+			</div>
+			<div ng-show="user" ng-init="rootTools.cart.stripeData()">
+				<div ng-show="user.card">
+					<p style="text-align:right;">
+						A {{cart.total | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
+					</p>
+				</div>
+				<!--<a class="btn btn-danger" ng-click="rootTools.invoice.reset()">Clear Invoice</a>-->
+				<a class="btn btn-primary pull-right" ng-click="rootTools.invoice.order()" ng-hide="user.card || rootTools.user.is('Manager')">Continue</a>
+				<a class="btn btn-primary pull-right" ng-click="rootTools.invoice.order()" ng-show="user.card && !rootTools.user.is('Manager')">Order Now!</a>
+				<a class="btn btn-info pull-right" href="#/invoice_create" ng-show="rootTools.user.is('Manager')">Create Invoice</a>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-show="cart.status=='empty'">
+		<h2>Invoice Data...</h2>
+	</div>
+	<div class="row" ng-show="cart.status=='paid'">
+		<h2>Thanks for your purchase!  <br>You will get an email shortly.</h2>
+	</div>
+	<div class="row" ng-show="cart.status=='pending'">
+		<h2>Please wait while we prepare a secure gateway.</h2>
+	</div>
 </div>

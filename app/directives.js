@@ -16,6 +16,30 @@ app.directive('contenteditable', function() {
 	};
 });
 
+app.directive('sidescroll', ['$timeout', function(timer){
+	return {
+		restrict: 'E',
+		replace: true,
+		transclude: true,
+		template: '<div class="outerScroller">'+
+					'<div class="innerScroller" ng-transclude></div>'+
+				'</div>',
+		link: function(scope, elem, attrs, ctrl) {
+			it.e = elem
+			function format(){
+				var innerScroller = elem[0].children[0]
+				console.log(innerScroller.children)
+				var width = innerScroller.childElementCount * (15+innerScroller.children[0].clientWidth);
+				$(innerScroller).css('width', width);
+			}
+			
+			timer(format, 100)
+		}
+	}
+}])
+// var container_width = SINGLE_IMAGE_WIDTH * $(".container-inner a").length;
+//   $(".container-inner").css("width", container_width);
+
 
 app.directive('mediaManager', function() {
 	return {

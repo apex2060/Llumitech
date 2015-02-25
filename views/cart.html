@@ -43,7 +43,7 @@
 				<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
 				<a href="#/login" class="btn btn-primary pull-right">Login</a>
 			</div>
-			<div ng-show="user">
+			<div ng-show="user" ng-init="rootTools.cart.stripeData()">
 				<div ng-show="user.card">
 					<p style="text-align:right;">
 						A {{cart.total | currency}} charge will me made to your {{user.card.brand}} card ending in: {{user.card.last4}}
@@ -52,7 +52,7 @@
 				<a class="btn btn-danger" ng-click="rootTools.cart.reset()">Clear Cart</a>
 				<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-hide="user.card || rootTools.user.is('Manager')">Continue</a>
 				<a class="btn btn-primary pull-right" ng-click="rootTools.cart.order()" ng-show="user.card && !rootTools.user.is('Manager')">Order Now!</a>
-				<a class="btn btn-info pull-right" href="#/invoice" ng-show="rootTools.user.is('Manager')">Create Invoice</a>
+				<a class="btn btn-info pull-right" href="#/invoice_create" ng-show="rootTools.user.is('Manager')">Create Invoice</a>
 			</div>
 		</div>
 	</div>

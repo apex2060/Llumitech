@@ -1,0 +1,100 @@
+<div class="well light" ng-init="rootTools.cart.ccInit()">
+	<h1>Invoice</h1>
+	<table class="table table-hover">
+		<tbody>
+			<tr>
+				<td>
+					<h3>To: </h3>
+					<p>{{cart.client.fullName}}<br>{{cart.client.phone}}<br>{{cart.client.email}}<br>{{cart.client.address}}</p>
+				</td>
+				<td>
+					<p>{{cart.message}}</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Item</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in cart.items">
+				<td>{{$index + 1}}</td>
+				<td>{{item.title}}</td>
+				<td>{{item.price | currency}}</td>
+				<td>{{item.quantity}}</td>
+				<td>{{rootTools.cart.itemTotal(item) | currency}}</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="text-align:right;">Subtotal: </td>
+				<td>{{cart.subtotal | currency}}</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="text-align:right;">Shipping: </td>
+				<td>{{cart.shipping | currency}}</td>
+			</tr>
+			<tr class="success">
+				<td colspan="4" style="text-align:right;">Contractor Discounts: </td>
+				<td>{{cart.contDiscounts | currency}}</td>
+			</tr>
+			<tr class="success" ng-repeat="discount in cart.discounts">
+				<td colspan="4" style="text-align:right;">{{discount.title}}</td>
+				<td>{{discount.amount | currency}}</td>
+			</tr>
+			<tr class="success">
+				<td colspan="4" style="text-align:right;">Total Discounts: </td>
+				<td>{{cart.allDiscounts | currency}}</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="text-align:right;">Total: </td>
+				<td>{{cart.total | currency}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row" ng-show="temp.card.status!='saved' && cart.status!=='paid'">
+		<form role="form" ng-submit="rootTools.invoice.ccCheckout(temp.card)">
+			<div class="form-group">
+				<label for="ccNumber" class="control-label">Card Number</label>
+				<input type="text" class="form-control" id="ccNumber" placeholder="Card Number" ng-model="temp.card.number">
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="ccExpMonth" class="control-label">Expiration Month</label>
+						<input type="text" class="form-control" id="ccExpMonth" placeholder="mm" ng-model="temp.card.exp_month">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="ccExpYear" class="control-label">Expiration Year</label>
+						<input type="text" class="form-control" id="ccExpYear" placeholder="yyyy" ng-model="temp.card.exp_year">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="ccCvc" class="control-label">CVC</label>
+						<input type="text" class="form-control" id="ccCvc" placeholder="CVC" ng-model="temp.card.cvc">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block" ng-hide="temp.card.status">Checkout</button>
+				<button class="btn btn-default btn-block" ng-show="temp.card.status == 'processing'" disabled>Processing...</button>
+				<button class="btn btn-success btn-block" ng-show="temp.card.status == 'saved'" disabled>Order Complete</button>
+			</div>
+		</form>
+	</div>
+	<div class="row" ng-show="temp.card.status=='saved'">
+		<h2>Thanks for your purchase!  <br>You will get an email shortly.</h2>
+	</div>
+	<div class="row" ng-show="cart.status=='paid'">
+		<h2>Invoice Paid!</h2>
+	</div>
+</div>

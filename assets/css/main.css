@@ -229,6 +229,16 @@ div.thumbnail{
 	height:500px;
 }
 
+.outerScroller{
+	overflow-x: scroll;
+	overflow-y: hidden;
+	height: 230px;
+}.innerScroller .thumbnail{
+	width: 200px;
+	float: left;
+	margin: 5px;
+}
+
 
 
 
@@ -278,5 +288,8 @@ input, table{
 @media (max-width: 500px) {
 	.point25{
 		width: 100%;
+	}
+	.imgContainer.h500{
+		height: 250px;	
 	}
 }

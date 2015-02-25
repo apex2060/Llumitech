@@ -2,15 +2,15 @@
 	<h1>Llumitech</h1>
 	<h2>Landscape Lighting</h2>
 	<div class="row">
-		<div class="col-md-6">
-			<div class="imgContainer h250">
+		<div class="col-md-12">
+			<div class="imgContainer h500">
 				<img class="full" src="/assets/img/background/background.jpg" alt="">
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div class="imgContainer h250">
-				<img class="full" ng-src="{{products[0].pic.src}}" alt="">
-			</div>
+		<div class="col-md-12">
+			<sidescroll>
+				<a class="thumbnail" href="#/products/item/{{product.objectId}}" ng-repeat="product in products"><img ng-src="{{product.thumbnail.url}}" alt=""></a>
+			</sidescroll>
 		</div>
 	</div>
 </div>
